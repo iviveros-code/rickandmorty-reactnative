@@ -6,10 +6,10 @@ const URL = 'https://rickandmortyapi.com/api/character';
 
 //types
 const GET_CHARACTERS = 'GET_CHARACTERS';
-let GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS';
-let GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR';
+const GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS';
+const GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR';
 
-let initialData = {
+const initialData = {
   fetching: false,
   array: [],
   current: {},

@@ -4,7 +4,7 @@ import {Text, View, StyleSheet} from 'react-native';
 const RenderItem = ({item}) => {
   return (
     <View style={styles.container}>
-      <Text>RenderItem</Text>
+      <Text>{item.name}</Text>
     </View>
   );
 };

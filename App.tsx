@@ -5,6 +5,7 @@ import generateStore from './src/redux/store';
 
 export default function App() {
   const store = generateStore();
+
   return (
     <Provider store={store}>
       <Navigation />
