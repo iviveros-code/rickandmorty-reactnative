@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'https://rickandmortyapi.com/api/character';
+const URL = 'https://rickandmortyapi.com/api/character/';
 
 //constans
 
@@ -18,7 +18,7 @@ const initialData = {
 };
 //reducer
 
-export default function Reducer(state = initialData, action) {
+export default function charsReducer(state = initialData, action) {
   switch (action.type) {
     case GET_CHARACTERS:
       return {...state, fetching: true};

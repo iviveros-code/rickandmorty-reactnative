@@ -3,26 +3,26 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TextInput,
   Dimensions,
+  Image,
+  ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCharactersAction} from '../../redux/charactersDuck';
-import RenderItem from './index';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../../styles/colors';
 
 const {width, height} = Dimensions.get('window');
-// const dispatch = useDispatch();
 
-// const characters = useSelector((store) => store.characters.array);
+const CharactersComponent = () => {
+  const dispatch = useDispatch();
+  const charsData = useSelector((store) => store.characters.array);
 
-// useEffect(() => {
-//   dispatch(getCharactersAction());
-// }, []);
+  useEffect(() => {
+    dispatch(getCharactersAction());
+  }, []);
 
-function CharactersComponent() {
   return (
     <View style={styles.container}>
       <View
@@ -47,27 +47,52 @@ function CharactersComponent() {
           />
           <TextInput
             placeholder="Search a character..."
-            style={{fontSize: 20, position: 'absolute', marginLeft: 50}}
+            style={{
+              fontSize: 20,
+              marginLeft: 80,
+              textAlign: 'center',
+            }}
           />
         </View>
       </View>
 
       <Text>Lista de Personajes</Text>
-      {/* <View>
-        <FlatList
-          data={characters}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => <RenderItem item={item} />}
-        />
-      </View> */}
+      <ScrollView style={{marginBottom: 20}}>
+        {charsData.map((item) => (
+          <View
+            key={item.id}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: 10,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}>
+            <Image
+              source={{uri: item.image}}
+              style={{
+                width: 100,
+                height: 100,
+                margin: 10,
+                shadowOpacity: 0.5,
+                shadowColor: colors.gray,
+              }}
+            />
+            <Text style={{marginLeft: 10}}>{item.name}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      <Text style={{marginBottom: 10}}>Next Page</Text>
     </View>
   );
-}
+};
 
 export default CharactersComponent;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
 });
