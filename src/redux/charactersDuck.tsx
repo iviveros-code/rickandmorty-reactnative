@@ -8,6 +8,7 @@ const URL = 'https://rickandmortyapi.com/api/character/';
 const GET_CHARACTERS = 'GET_CHARACTERS';
 const GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS';
 const GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR';
+const GET_CHARACTERS_DETAILS = 'GET_CHARACTERS_DETAILS';
 
 const initialData = {
   fetching: false,
@@ -26,6 +27,8 @@ export default function charsReducer(state = initialData, action) {
       return {...state, array: action.payload, fetching: false};
     case GET_CHARACTERS_ERROR:
       return {...state, fetching: false, error: action.payload};
+    case GET_CHARACTERS_DETAILS:
+      return {...state, ...action.payload};
 
     default:
       return state;
@@ -52,4 +55,47 @@ export let getCharactersAction = () => (dispatch, getState) => {
         payload: error.response.message,
       });
     });
+};
+
+// export let getCharactersDetails = (url) => async (dispatch) => {
+//   return await axios
+//     .get(URL)
+//     .then((res) => {
+//       dispatch({
+//         type: GET_CHARACTERS_DETAILS,
+//         payload: {
+//           // image: res.data.results.image,
+//           // name: res.data.results.name,
+//           // status: res.data.results.status,
+//           // species: res.data.results.species,
+//           // location: res.data.results.location,
+//           name: res.data.results,
+//         },
+//       });
+//       console.log(res);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
+
+export const getCharactersDetails = (id) => async (dispatch) => {
+  try {
+    const response = await axios(
+      `https://rickandmortyapi.com/api/character/${id}`,
+    );
+    console.log(response);
+
+    dispatch({
+      type: GET_CHARACTERS_DETAILS,
+      payload: {
+        // name: response.data.results,
+        // alto: response.data.height,
+        // ancho: response.data.width,
+        // imagen: response.data.sprites.front_default,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
