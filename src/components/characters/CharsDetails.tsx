@@ -1,50 +1,58 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
   TouchableHighlight,
-  TouchableOpacity,
   StyleSheet,
   Modal,
   Alert,
   Image,
 } from 'react-native';
-
-interface CharacterDetailsProps {}
+import {useDispatch, useSelector} from 'react-redux';
+import {getCharactersDetails} from '../../redux/charactersDuck';
 
 const CharsDetails = ({modalVisible, setModalVisible, item}) => {
-  return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Details of Characters!</Text>
-            <Text>name:</Text>
+  const dispatch = useDispatch();
 
-            <TouchableHighlight
-              style={{...styles.openButton, backgroundColor: '#2196F3'}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={styles.textStyle}>Close</Text>
-            </TouchableHighlight>
-          </View>
+  // useEffect(() => {
+  //   const fetchData = () => {
+  //     dispatch(getCharactersDetails());
+  //   };
+  //   fetchData();
+  // }, [dispatch]);
+
+  interface CharacterDetailsProps {}
+
+  const detail = useSelector((store) => store.characters.array);
+
+  return (
+    <View>
+      {detail.map((item) => (
+        <View key={item.id}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Details of Characters!</Text>
+                <Text>name: </Text>
+
+                <TouchableHighlight
+                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.textStyle}>Close</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
         </View>
-      </Modal>
-      {/* 
-      <TouchableHighlight
-        style={styles.openButton}
-        onPress={() => {
-          setModalVisible(true);
-        }}>
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableHighlight> */}
+      ))}
     </View>
   );
 };

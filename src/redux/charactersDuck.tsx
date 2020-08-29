@@ -28,7 +28,7 @@ export default function charsReducer(state = initialData, action) {
     case GET_CHARACTERS_ERROR:
       return {...state, fetching: false, error: action.payload};
     case GET_CHARACTERS_DETAILS:
-      return {...state, ...action.payload};
+      return {...state, charactersDetails: action.payload};
 
     default:
       return state;
@@ -64,15 +64,14 @@ export let getCharactersAction = () => (dispatch, getState) => {
 //       dispatch({
 //         type: GET_CHARACTERS_DETAILS,
 //         payload: {
-//           // image: res.data.results.image,
-//           // name: res.data.results.name,
-//           // status: res.data.results.status,
-//           // species: res.data.results.species,
-//           // location: res.data.results.location,
-//           name: res.data.results,
+//           image: res.data.image,
+//           name: res.data.name,
+//           status: res.data.status,
+//           species: res.data.species,
+//           location: res.data.location,
 //         },
 //       });
-//       console.log(res);
+//       console.log('desde log', res.data.results);
 //     })
 //     .catch((error) => {
 //       console.log(error);
@@ -84,7 +83,6 @@ export const getCharactersDetails = (id) => async (dispatch) => {
     const response = await axios(
       `https://rickandmortyapi.com/api/character/${id}`,
     );
-    console.log(response);
 
     dispatch({
       type: GET_CHARACTERS_DETAILS,
