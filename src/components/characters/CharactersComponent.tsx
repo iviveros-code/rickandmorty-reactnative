@@ -1,37 +1,32 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  getCharactersAction,
-  getCharactersDetails,
-} from '../../redux/charactersDuck';
+import {getCharactersAction} from '../../redux/charactersDuck';
 import charsStyles from './styles';
 import SearchBar from './SearchBar';
-import ButtonsPagination from './Buttons';
-import CharsDetails from './CharsDetails';
 import RenderItem from './RenderItem';
+import Footer from './Footer';
 
 const CharactersComponent = () => {
   const dispatch = useDispatch();
-  const charsData = useSelector((store) => store.characters.array);
+  const charsData = useSelector((store) => store.characters);
+
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     dispatch(getCharactersAction());
   }, []);
+
+  const handleLoadMore = () => {
+    console.log('desde handle');
+    charsData.nextPage;
+  };
 
   return (
     <View style={charsStyles.container}>
       <SearchBar />
       <View style={charsStyles.cardContainer}>
         <FlatList
-          data={charsData}
+          data={charsData.array}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => (
             <RenderItem
@@ -40,6 +35,9 @@ const CharactersComponent = () => {
               modalVisible={modalVisible}
             />
           )}
+          ListFooterComponent={<Footer />}
+          onEndReachedThreshold={0.1}
+          onEndReached={handleLoadMore}
         />
       </View>
     </View>

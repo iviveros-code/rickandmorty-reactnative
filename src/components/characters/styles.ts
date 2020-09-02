@@ -35,6 +35,18 @@ const charsStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: colors.white,
+    width: width - 50,
+  },
+  itemName: {
+    marginLeft: 10,
+    fontWeight: '300',
+    fontSize: 20,
+  },
+  itemSpecies: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: colors.red,
+    fontWeight: 'bold',
   },
   image: {
     width: 100,

@@ -12,47 +12,32 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCharactersDetails} from '../../redux/charactersDuck';
 
 const CharsDetails = ({modalVisible, setModalVisible, item}) => {
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const fetchData = () => {
-  //     dispatch(getCharactersDetails());
-  //   };
-  //   fetchData();
-  // }, [dispatch]);
-
-  interface CharacterDetailsProps {}
-
-  const detail = useSelector((store) => store.characters.array);
-
   return (
     <View>
-      {detail.map((item) => (
-        <View key={item.id}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Details of Characters!</Text>
-                <Text>name: </Text>
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Details of Characters!</Text>
+              <Text>name: </Text>
 
-                <TouchableHighlight
-                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <Text style={styles.textStyle}>Close</Text>
-                </TouchableHighlight>
-              </View>
+              <TouchableHighlight
+                style={{...styles.openButton, backgroundColor: '#2196F3'}}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text style={styles.textStyle}>Close</Text>
+              </TouchableHighlight>
             </View>
-          </Modal>
-        </View>
-      ))}
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 };

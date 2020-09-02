@@ -7,6 +7,10 @@ interface WelcomeComponentProps {}
 
 const WelcomeComponent = (props: WelcomeComponentProps) => {
   const navigation = useNavigation();
+
+  const date = `${new Date().getDate()}/${
+    new Date().getMonth() + 1
+  }/${new Date().getFullYear()}`;
   return (
     <View style={styles.container}>
       <View style={{marginTop: 60}}>
@@ -63,7 +67,7 @@ const WelcomeComponent = (props: WelcomeComponentProps) => {
           fontSize: 16,
           fontWeight: '500',
         }}>
-        AUG 20{' '}
+        {date}
       </Text>
     </View>
   );
