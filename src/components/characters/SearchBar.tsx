@@ -3,9 +3,15 @@ import {View, TextInput} from 'react-native';
 import charsStyles from './styles';
 import colors from '../../styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-interface SearchBarProps {}
+import {connect} from 'react-redux';
+import {setNameAction} from '../../redux/queryDuck';
 
-const SearchBar = (props: SearchBarProps) => {
+interface State {
+  name: string;
+  setNameAction: {(name: string): any};
+}
+
+const SearchBar = ({name, setNameAction}: State) => {
   return (
     <View style={charsStyles.searchContainer}>
       <View style={charsStyles.search}>
@@ -18,10 +24,18 @@ const SearchBar = (props: SearchBarProps) => {
         <TextInput
           placeholder="Search a character..."
           style={charsStyles.textInput}
+          value={name}
+          onChange={(e) => setNameAction(e.nativeEvent.text)}
         />
       </View>
     </View>
   );
 };
 
-export default SearchBar;
+function mapStateToProps(state: State) {
+  return {
+    name: state.name,
+  };
+}
+
+export default connect(mapStateToProps, {setNameAction})(SearchBar);

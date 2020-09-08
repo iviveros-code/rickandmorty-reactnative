@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCharactersAction} from '../../redux/charactersDuck';
 import charsStyles from './styles';
@@ -16,14 +16,14 @@ const CharactersComponent = () => {
     dispatch(getCharactersAction());
   }, []);
 
-  const handleLoadMore = () => {
-    console.log('desde handle');
-    charsData.nextPage;
+  const fetchMoreData = (next: number) => {
+    getCharactersAction();
   };
 
   return (
     <View style={charsStyles.container}>
       <SearchBar />
+      <Text>Hola</Text>
       <View style={charsStyles.cardContainer}>
         <FlatList
           data={charsData.array}
@@ -36,8 +36,8 @@ const CharactersComponent = () => {
             />
           )}
           ListFooterComponent={<Footer />}
-          onEndReachedThreshold={0.1}
-          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => fetchMoreData()}
         />
       </View>
     </View>

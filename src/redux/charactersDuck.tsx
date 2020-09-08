@@ -1,9 +1,11 @@
 import axios from 'axios';
+import ApolloClient, {gql} from 'apollo-boost';
 
 const URL = 'https://rickandmortyapi.com/api/character/';
-// const [characters, setCharacters] = React.useState([]);
-// const [fetching, setFetching] = React.useState(false);
-// let INDEX = 6;
+const client = new ApolloClient({
+  uri: 'https://rickandmortyapi.com/graphql',
+});
+
 //constans
 
 //types
@@ -11,8 +13,7 @@ const GET_CHARACTERS = 'GET_CHARACTERS';
 const GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS';
 const GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR';
 const GET_CHARACTERS_DETAILS = 'GET_CHARACTERS_DETAILS';
-const LOAD_PAGE = 'LOAD_PAGE';
-const LOAD_PAGE_SUCCESS = 'LOAD_PAGE_SUCCESS';
+const UPDATE_PAGE = 'UPDATE_PAGE';
 
 const initialData = {
   fetching: false,
@@ -33,7 +34,7 @@ export default function charsReducer(state = initialData, action) {
       return {...state, fetching: false, error: action.payload};
     case GET_CHARACTERS_DETAILS:
       return {...state, charactersDetails: action.payload};
-    case LOAD_PAGE_SUCCESS:
+    case UPDATE_PAGE:
       return {...state, nextPage: action.payload, fetching: false};
 
     default:
@@ -42,32 +43,79 @@ export default function charsReducer(state = initialData, action) {
 }
 
 //actions
+// export let getCharactersAction = () => (dispatch, getState) => {
+//   let {nextPage} = getState().characters;
+//   dispatch({
+//     type: GET_CHARACTERS,
+//   });
+//   return axios
+//     .get(`https://rickandmortyapi.com/api/character/?page=${nextPage}`)
+
+//     .then((res) => {
+//       console.log(res.data.info.next);
+//       dispatch({
+//         type: GET_CHARACTERS_SUCCESS,
+//         payload: res.data.results,
+//       });
+//       dispatch({
+//         type: LOAD_PAGE_SUCCESS,
+//         payload: res.data.info.next,
+//       });
+//     })
+
+//     .catch((error) => {
+//       console.log(error);
+//       dispatch({
+//         type: GET_CHARACTERS_ERROR,
+//         payload: error.response.message,
+//       });
+//       return;
+//     });
+// };
+
 export let getCharactersAction = () => (dispatch, getState) => {
-  let {nextPage} = getState().characters;
+  let query = gql`
+    query($page: Int) {
+      characters(page: $page) {
+        info {
+          pages
+          next
+          prev
+        }
+        results {
+          name
+          image
+          status
+          species
+        }
+      }
+    }
+  `;
   dispatch({
     type: GET_CHARACTERS,
   });
-  return axios
-    .get(`https://rickandmortyapi.com/api/character/?next=${nextPage}`)
-
-    .then((res) => {
+  let {nextPage} = getState().characters;
+  return client
+    .query({
+      query,
+      variables: {page: nextPage},
+    })
+    .then(({data, error}) => {
+      if (error) {
+        dispatch({
+          type: GET_CHARACTERS_ERROR,
+          payload: error,
+        });
+        return;
+      }
       dispatch({
         type: GET_CHARACTERS_SUCCESS,
-        payload: res.data.results,
+        payload: data.characters.results,
       });
       dispatch({
-        type: LOAD_PAGE_SUCCESS,
-        payload: res.data.info.next,
+        type: UPDATE_PAGE,
+        payload: data.characters.info.next ? data.characters.info.next : 1,
       });
-    })
-
-    .catch((error) => {
-      console.log(error);
-      dispatch({
-        type: GET_CHARACTERS_ERROR,
-        payload: error.response.message,
-      });
-      return;
     });
 };
 
