@@ -24,6 +24,7 @@ const CharactersComponent = () => {
   return (
     <View style={charsStyles.container}>
       <SearchBar />
+      <Text>Desde new branch</Text>
       <View style={charsStyles.cardContainer}>
         <FlatList
           data={charsData.array}
