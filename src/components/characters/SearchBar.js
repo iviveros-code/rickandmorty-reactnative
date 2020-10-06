@@ -3,11 +3,10 @@ import {View, TextInput} from 'react-native';
 import charsStyles from './styles';
 import colors from '../../styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-interface SearchBarProps {}
 
-const SearchBar = (props: SearchBarProps) => {
+const SearchBar = (props) => {
   return (
-    <View style={charsStyles.searchContainer}>
+    <View style={[charsStyles.searchContainer, {marginTop: 5}]}>
       <View style={charsStyles.search}>
         <Icon
           name="search"
@@ -16,6 +15,7 @@ const SearchBar = (props: SearchBarProps) => {
           style={{marginLeft: 10}}
         />
         <TextInput
+          {...props}
           placeholder="Search a character..."
           style={charsStyles.textInput}
         />

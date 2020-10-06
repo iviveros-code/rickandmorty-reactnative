@@ -15,6 +15,7 @@ export default (props) => {
   return (
     <SafeAreaView>
       <View
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flexDirection: 'row',
           height: 64,
@@ -45,6 +46,7 @@ export default (props) => {
           return (
             <TouchableOpacity
               key={index}
+              // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 backgroundColor: backgroundColor,
                 flexDirection: 'row',
